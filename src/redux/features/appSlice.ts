@@ -2,25 +2,27 @@ import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 
 interface AppState {
-  seasonIndex: number;
+  seasonIndex?: number;
+  weekIndex?: number;
 }
 
-const initialState: AppState = {
-  seasonIndex: 0,
-};
+const initialState: AppState = {};
 
 export const appSlice = createSlice({
   name: "app",
   initialState,
   reducers: {
     setSeasonIndex: (state, action: PayloadAction<number>) => {
-      const newSeasonIndex = action.payload;
-      state.seasonIndex = newSeasonIndex;
+      state.seasonIndex = action.payload;
+      delete state.weekIndex;
+    },
+    setWeekIndex: (state, action: PayloadAction<number>) => {
+      state.weekIndex = action.payload;
     },
   },
 });
 
-export const { setSeasonIndex } = appSlice.actions;
+export const { setSeasonIndex, setWeekIndex } = appSlice.actions;
 
 // Other code such as selectors can use the imported `RootState` type
 // export const selectCount = (state: RootState) => state.counter.value

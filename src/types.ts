@@ -16,6 +16,7 @@ export interface WeekResult {
 }
 
 export interface Season {
+  seasonIndex: number;
   seasonName: string;
   allWeekResults: WeekResult[];
 }

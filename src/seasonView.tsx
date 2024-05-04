@@ -1,16 +1,20 @@
 import DataTable, { TableColumn } from "react-data-table-component";
 import { RatedPlayer, Season } from "./types";
-import { useState } from "react";
-import { range } from "./utils";
+import { Header } from "./header";
+import { useAppSelector } from "./redux/store";
 
 interface Props {
   season: Season;
 }
 
 export const SeasonView = ({ season }: Props) => {
-  const { seasonName, allWeekResults } = season;
+  const { allWeekResults } = season;
 
-  const [weekIndex, setWeekIndex] = useState(allWeekResults.length - 1);
+  const weekIndex = useAppSelector((state) =>
+    state.app.weekIndex === undefined
+      ? allWeekResults.length - 1
+      : state.app.weekIndex
+  );
 
   const currWeekResults = allWeekResults[weekIndex];
 
@@ -133,46 +137,7 @@ export const SeasonView = ({ season }: Props) => {
           dense={true}
         />
       </div>
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "row",
-          flexWrap: "wrap",
-          position: "fixed",
-          top: 0,
-          left: 0,
-          alignItems: "center",
-          justifyContent: "space-between",
-          gap: "0 10px",
-          backgroundColor: "rgba(0,0,0,0.7)",
-          width: "100%",
-          maxWidth: "100%",
-          boxSizing: "border-box",
-          padding: "2px 5px",
-        }}
-      >
-        <div
-          style={{
-            lineHeight: "100%",
-          }}
-        >
-          Tilt Pong Crew &mdash; {seasonName}
-        </div>
-        <select
-          onChange={(e) => {
-            const newWeekIndex = Number(e.target.value);
-            console.log({ newWeekIndex });
-            setWeekIndex(newWeekIndex);
-          }}
-          value={weekIndex}
-        >
-          {range(allWeekResults.length).map((i) => (
-            <option key={i} value={i}>
-              Week {i + 1}
-            </option>
-          ))}
-        </select>
-      </div>
+      <Header season={season} weekIndex={weekIndex} />
     </>
   );
 };

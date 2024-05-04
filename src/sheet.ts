@@ -5,6 +5,7 @@ import {
 } from "google-spreadsheet";
 import { columnToLetter } from "./utils";
 import { BasePlayer, RatedPlayer, Season, WeekResult } from "./types";
+import { SEASON_NAMES } from "./constants";
 
 function findCellWithValue(
   sheet: GoogleSpreadsheetWorksheet,
@@ -131,7 +132,7 @@ function getAllWeekResults(
   return allWeekResults;
 }
 
-export async function fetchSeason(seasonName: string): Promise<Season> {
+export async function fetchSeason(seasonIndex: number): Promise<Season> {
   const apiKey = import.meta.env.VITE_GOOGLE_API_KEY;
   if (!apiKey) {
     throw new Error("API Key missing");
@@ -140,6 +141,12 @@ export async function fetchSeason(seasonName: string): Promise<Season> {
   const sheetId = import.meta.env.VITE_GOOGLE_SHEET_ID;
   if (!sheetId) {
     throw new Error("Google Sheet ID missing");
+  }
+
+  const seasonName = SEASON_NAMES[seasonIndex];
+
+  if (!seasonName) {
+    throw new Error(`Season index ${seasonIndex} not found`);
   }
 
   const doc = new GoogleSpreadsheet(sheetId, { apiKey });
@@ -172,5 +179,5 @@ export async function fetchSeason(seasonName: string): Promise<Season> {
     basePlayers
   );
 
-  return { seasonName, allWeekResults };
+  return { seasonIndex, seasonName, allWeekResults };
 }

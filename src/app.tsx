@@ -6,13 +6,21 @@ import { fetchSeason } from "./sheet";
 import { SEASON_NAMES } from "./constants";
 
 function App() {
-  const seasonIndex = useAppSelector((state) => state.app.seasonIndex);
+  const seasonIndex = useAppSelector((state) =>
+    state.app.seasonIndex === undefined
+      ? SEASON_NAMES.length - 1
+      : state.app.seasonIndex
+  );
 
   const seasonName = SEASON_NAMES[seasonIndex];
 
-  const { isPending, error, data } = useQuery({
+  const {
+    isPending,
+    error,
+    data: season,
+  } = useQuery({
     queryKey: [seasonName],
-    queryFn: () => fetchSeason(SEASON_NAMES[seasonIndex]),
+    queryFn: () => fetchSeason(seasonIndex),
   });
 
   if (isPending) {
@@ -32,7 +40,7 @@ function App() {
         width: "100%",
       }}
     >
-      <SeasonView season={data} />
+      <SeasonView season={season} />
     </div>
   );
 }
