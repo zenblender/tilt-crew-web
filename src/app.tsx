@@ -1,12 +1,27 @@
-import { use } from "react";
 import "./App.css";
 import { SeasonView } from "./seasonView";
 import { useAppSelector } from "./redux/store";
+import { useQuery } from "@tanstack/react-query";
+import { fetchSeason } from "./sheet";
+import { SEASON_NAMES } from "./constants";
 
 function App() {
-  const seasonPromise = useAppSelector((state) => state.app.seasonPromise);
+  const seasonIndex = useAppSelector((state) => state.app.seasonIndex);
 
-  const season = use(seasonPromise);
+  const seasonName = SEASON_NAMES[seasonIndex];
+
+  const { isPending, error, data } = useQuery({
+    queryKey: [seasonName],
+    queryFn: () => fetchSeason(SEASON_NAMES[seasonIndex]),
+  });
+
+  if (isPending) {
+    return "Loading...";
+  }
+
+  if (error) {
+    return `❌ ${error}`;
+  }
 
   return (
     <div
@@ -17,7 +32,7 @@ function App() {
         width: "100%",
       }}
     >
-      <SeasonView season={season} />
+      <SeasonView season={data} />
     </div>
   );
 }
