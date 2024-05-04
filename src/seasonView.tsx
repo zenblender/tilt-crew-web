@@ -2,6 +2,7 @@ import DataTable, { TableColumn } from "react-data-table-component";
 import { RatedPlayer, Season } from "./types";
 import { Header } from "./header";
 import { useAppSelector } from "./redux/store";
+import { PLAYER_ROW_BACKGROUND_COLOR, RATING_TEXT_COLOR } from "./colors";
 
 interface Props {
   season: Season;
@@ -20,7 +21,6 @@ export const SeasonView = ({ season }: Props) => {
 
   const data = currWeekResults.ratedPlayers;
 
-  // Colors from https://colorkit.co/palette/ff595e-ff924c-ffca3a-c5ca30-8ac926-52a675-1982c4-4267ac-6a4c93/
   const columns: TableColumn<RatedPlayer>[] = [
     {
       name: "#",
@@ -42,6 +42,10 @@ export const SeasonView = ({ season }: Props) => {
       grow: 2,
       style: {
         fontWeight: 900,
+        "-webkit-text-stroke-color": "black",
+        "-webkit-text-stroke-width": "2px",
+        paintOrder: "stroke fill",
+        filter: "drop-shadow(2px 2px 0 rgb(0, 0, 0, 0.5))",
       },
     },
     {
@@ -53,7 +57,11 @@ export const SeasonView = ({ season }: Props) => {
       right: true,
       style: {
         fontWeight: 700,
-        color: "#1982c4",
+        color: RATING_TEXT_COLOR,
+        "-webkit-text-stroke-color": "black",
+        "-webkit-text-stroke-width": "2px",
+        paintOrder: "stroke fill",
+        filter: "drop-shadow(2px 2px 0 rgb(0, 0, 0, 0.5))",
       },
     },
     {
@@ -128,7 +136,12 @@ export const SeasonView = ({ season }: Props) => {
 
   return (
     <>
-      <div style={{ marginTop: "20px" }}>
+      <div
+        style={{
+          marginTop: "20px",
+          filter: "drop-shadow(6px 6px 0 rgb(0, 0, 0, 0.5))",
+        }}
+      >
         <DataTable
           key={weekIndex}
           theme="dark"
@@ -141,6 +154,7 @@ export const SeasonView = ({ season }: Props) => {
               style: () => {
                 return {
                   animationDelay: `${Math.floor(Math.random() * 250)}ms`,
+                  backgroundColor: PLAYER_ROW_BACKGROUND_COLOR,
                 };
               },
             },

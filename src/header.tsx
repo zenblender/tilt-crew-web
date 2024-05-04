@@ -26,8 +26,7 @@ export const Header: FC<Props> = ({ season, weekIndex }) => {
         left: 0,
         alignItems: "center",
         justifyContent: "space-between",
-        gap: "0 10px",
-        backgroundColor: "rgba(0,0,0,0.7)",
+        backgroundColor: "#58508d",
         width: "100%",
         maxWidth: "100%",
         boxSizing: "border-box",
@@ -36,11 +35,12 @@ export const Header: FC<Props> = ({ season, weekIndex }) => {
     >
       <div
         style={{
+          fontWeight: 900,
           lineHeight: "100%",
           flexGrow: 1,
         }}
       >
-        Tilt Crew
+        🏓 Tilt Crew
       </div>
       <select
         onChange={(e) => {

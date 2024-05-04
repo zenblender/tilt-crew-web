@@ -8,8 +8,8 @@
 }
 
 .rdt_Table {
-  background-color: unset !important;
-  /* border: 1px solid #555555 !important; */
+  background-color: #58508d !important;
+  border: 3px solid #58508d !important;
   border-top-left-radius: 10px !important;
   border-top-right-radius: 10px !important;
 }
@@ -31,12 +31,14 @@
 .rdt_TableRow {
   opacity: 0;
   animation: table-row-anim 0.5s forwards;
+  border-bottom-color: #58508d !important;
 }
 
 .rdt_TableHeadRow {
-  background-color: #555555 !important;
+  background-color: #58508d !important;
   border-top-left-radius: 10px !important;
   border-top-right-radius: 10px !important;
+  border-bottom-color: #58508d !important;
 }
 
 .rdt_TableCol {
