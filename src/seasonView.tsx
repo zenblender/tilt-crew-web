@@ -135,6 +135,16 @@ export const SeasonView = ({ season }: Props) => {
           columns={columns}
           data={data}
           dense={true}
+          conditionalRowStyles={[
+            {
+              when: () => true,
+              style: () => {
+                return {
+                  animationDelay: `${Math.floor(Math.random() * 250)}ms`,
+                };
+              },
+            },
+          ]}
         />
       </div>
       <Header season={season} weekIndex={weekIndex} />
