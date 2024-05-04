@@ -7,7 +7,19 @@
   box-sizing: border-box;
 }
 
+@keyframes table-anim {
+  0% {
+    filter: brightness(200%);
+    transform: perspective(1500px) rotate3d(0, 1, 0, 30deg);
+  }
+  100% {
+    filter: none;
+    transform: perspective(1500px) rotate3d(0, 0, 0, 0deg);
+  }
+}
+
 .rdt_Table {
+  animation: table-anim ease 1s forwards;
   background-color: #58508d !important;
   border: 3px solid #58508d !important;
   border-top-left-radius: 10px !important;

@@ -139,7 +139,6 @@ export const SeasonView = ({ season }: Props) => {
       <div
         style={{
           marginTop: "20px",
-          filter: "drop-shadow(6px 6px 0 rgb(0, 0, 0, 0.5))",
         }}
       >
         <DataTable
