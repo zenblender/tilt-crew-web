@@ -38,9 +38,15 @@ export const Header: FC<Props> = ({ season, weekIndex }) => {
           fontWeight: 900,
           lineHeight: "100%",
           flexGrow: 1,
+          display: "flex",
+          flexDirection: "row",
+          alignItems: "center",
+          gap: "8px",
+          filter: "drop-shadow(3px 3px 0 rgb(0, 0, 0, 0.3))",
         }}
       >
-        🏓 Tilt Crew
+        <img src="/pong.svg" width={20} height={20} />
+        <span>TILT CREW</span>
       </div>
       <select
         onChange={(e) => {
