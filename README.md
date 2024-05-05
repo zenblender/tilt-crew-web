@@ -2,6 +2,8 @@
 
 Web app to display players and stats for the [Tilt](https://www.tiltcolorado.com/) Table Tennis League in Louisville, CO.
 
+Check it out at [tiltcrew.com](https://www.tiltcrew.com/)!
+
 Stats are pulled in realtime from a Google Sheet where results are calculated.
 
 ## Install dependencies
@@ -31,4 +33,10 @@ pnpm run dev
 
 ```console
 pnpm build
+```
+
+## Deploying to GitHub Pages (tiltcrew.com custom domain)
+
+```console
+pnpm run deploy
 ```
