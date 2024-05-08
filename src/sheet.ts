@@ -7,6 +7,10 @@ import { columnToLetter } from "./utils";
 import { BasePlayer, RatedPlayer, Season, WeekResult } from "./types";
 import { SEASON_NAMES } from "./constants";
 
+const NUM_ROWS_TO_FETCH = 25;
+
+const MAX_NUM_WEEKS = 15;
+
 function findCellWithValue(
   sheet: GoogleSpreadsheetWorksheet,
   value: string,
@@ -71,9 +75,17 @@ function getAllWeekResults(
   const allWeekResults: WeekResult[] = [];
   for (
     let rowIndex = firstWeekRowIndex;
-    rowIndex < firstWeekRowIndex + 10;
+    rowIndex < firstWeekRowIndex + MAX_NUM_WEEKS;
     rowIndex++
   ) {
+    const firstPlayerCell = sheet.getCellByA1(
+      `${columnToLetter(firstWeekColumnIndex + 1)}${rowIndex + 1}`
+    );
+    if (!firstPlayerCell.value) {
+      // reached a week where the first player's rating is blank, so we probably have collected all weeks for the season
+      break;
+    }
+
     const weekNumber = rowIndex - firstWeekRowIndex + 1;
     const ratedPlayers: RatedPlayer[] = [];
     for (let playerIndex = 0; playerIndex < basePlayers.length; playerIndex++) {
@@ -122,7 +134,8 @@ function getAllWeekResults(
         ),
       });
     }
-    if (ratedPlayers.length) {
+    if (ratedPlayers.length === basePlayers.length) {
+      // week row has complete data (a rating for each player)
       allWeekResults.push({
         weekNumber,
         ratedPlayers: sortPlayersByRating(ratedPlayers),
@@ -149,6 +162,8 @@ export async function fetchSeason(seasonIndex: number): Promise<Season> {
     throw new Error(`Season index ${seasonIndex} not found`);
   }
 
+  const startMs = performance.now();
+
   const doc = new GoogleSpreadsheet(sheetId, { apiKey });
 
   await doc.loadInfo(); // loads document properties and worksheets
@@ -157,9 +172,16 @@ export async function fetchSeason(seasonIndex: number): Promise<Season> {
 
   const { columnCount } = sheet;
 
-  await sheet.loadCells(`A1:${columnToLetter(columnCount)}50`);
+  await sheet.loadCells(
+    `A1:${columnToLetter(columnCount)}${NUM_ROWS_TO_FETCH}`
+  );
 
-  const week0HeaderCell = findCellWithValue(sheet, "Week 0", columnCount, 50);
+  const week0HeaderCell = findCellWithValue(
+    sheet,
+    "Week 0",
+    columnCount,
+    NUM_ROWS_TO_FETCH
+  );
 
   if (!week0HeaderCell) {
     throw new Error("Could not find 'Week 0' header");
@@ -177,6 +199,10 @@ export async function fetchSeason(seasonIndex: number): Promise<Season> {
     week0HeaderCell.columnIndex + 1,
     week0HeaderCell.rowIndex + 1,
     basePlayers
+  );
+
+  console.log(
+    `Fetching took ${(performance.now() - startMs).toLocaleString()}ms`
   );
 
   return { seasonIndex, seasonName, allWeekResults };
