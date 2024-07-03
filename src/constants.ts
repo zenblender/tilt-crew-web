@@ -10,4 +10,5 @@ export const SEASON_NAMES = [
   "Fall 2023",
   "Winter 2024",
   "Spring 2024",
+  "Summer 2024",
 ];
