@@ -1,3 +1,5 @@
+# THIS VERSION IS DEPRECATED. CONVERTED TO A [NEXT.JS APP](https://github.com/zenblender/tilt-crew-next).
+
 # 🏓 Tilt Crew 🏓 - Web View
 
 Web app to display players and stats for the [Tilt](https://www.tiltcolorado.com/) Table Tennis League in Louisville, CO.
